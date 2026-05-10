@@ -23,6 +23,7 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { DEPOSIT_WALLET_BALANCE_QUERY_KEY } from '@/hooks/useBalance'
 import { useSignaturePromptRunner } from '@/hooks/useSignaturePromptRunner'
 import { useSiteIdentity } from '@/hooks/useSiteIdentity'
+import { isCurrentNegRiskAdapterAddress, UNSUPPORTED_NEG_RISK_ADAPTER_MESSAGE } from '@/lib/contracts'
 import { formatCurrency, formatPercent } from '@/lib/formatters'
 import { removeClaimedPublicPositions, updateQueryDataWhere } from '@/lib/optimistic-trading'
 import { buildPublicProfilePath } from '@/lib/platform-routing'
@@ -119,12 +120,12 @@ function useMarketsWonShareOnX({
   siteName,
   totalProceeds,
   userUsername,
-  userProxyWalletAddress,
+  userDepositWalletAddress,
 }: {
   siteName: string
   totalProceeds: number
   userUsername: string | null | undefined
-  userProxyWalletAddress: string | null | undefined
+  userDepositWalletAddress: string | null | undefined
 }) {
   const t = useExtracted()
   const [isSharingOnX, setIsSharingOnX] = useState(false)
@@ -136,7 +137,7 @@ function useMarketsWonShareOnX({
 
     setIsSharingOnX(true)
     try {
-      const profileSlug = userUsername?.trim() || userProxyWalletAddress?.trim() || ''
+      const profileSlug = userUsername?.trim() || userDepositWalletAddress?.trim() || ''
       const shareTargetUrl = profileSlug
         ? new URL(buildPublicProfilePath(profileSlug) ?? '/', window.location.origin).toString()
         : window.location.origin
@@ -158,7 +159,7 @@ function useMarketsWonShareOnX({
     finally {
       window.setTimeout(setIsSharingOnX, 200, false)
     }
-  }, [siteName, t, totalProceeds, userProxyWalletAddress, userUsername])
+  }, [siteName, t, totalProceeds, userDepositWalletAddress, userUsername])
 
   return { isSharingOnX, handleShareOnX }
 }
@@ -182,7 +183,7 @@ export default function PortfolioMarketsWonCardClient({ data }: PortfolioMarkets
     siteName,
     totalProceeds: summary.totalProceeds,
     userUsername: user?.username,
-    userProxyWalletAddress: user?.deposit_wallet_address,
+    userDepositWalletAddress: user?.deposit_wallet_address,
   })
 
   async function handleClaimAll() {
@@ -216,8 +217,8 @@ export default function PortfolioMarketsWonCardClient({ data }: PortfolioMarkets
       }
 
       const adapterAddress = normalizeAddress(market.negRiskAdapterAddress)
-      if (!adapterAddress) {
-        toast.error(t('Could not resolve the market adapter for claim. Refresh and try again.'))
+      if (!isCurrentNegRiskAdapterAddress(adapterAddress)) {
+        toast.error(t(UNSUPPORTED_NEG_RISK_ADAPTER_MESSAGE))
         return
       }
     }

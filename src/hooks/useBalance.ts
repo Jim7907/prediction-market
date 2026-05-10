@@ -47,12 +47,12 @@ export function useBalance(options: UseBalanceOptions = {}) {
   }
   const client = clientRef.current
 
-  const proxyWalletAddress: Address | null = user?.deposit_wallet_address
+  const depositWalletAddress: Address | null = user?.deposit_wallet_address
     ? normalizeAddress(user.deposit_wallet_address) as Address | null
     : null
 
   const contract = useMemo(() => {
-    if (!client || !proxyWalletAddress) {
+    if (!client || !depositWalletAddress) {
       return null
     }
 
@@ -61,10 +61,10 @@ export function useBalance(options: UseBalanceOptions = {}) {
       abi: ERC20_ABI,
       client,
     })
-  }, [client, proxyWalletAddress])
+  }, [client, depositWalletAddress])
 
   const isOptionsEnabled = options.enabled ?? true
-  const isQueryEnabled = Boolean(client && proxyWalletAddress && isOptionsEnabled)
+  const isQueryEnabled = Boolean(client && depositWalletAddress && isOptionsEnabled)
 
   const {
     data,
@@ -72,19 +72,19 @@ export function useBalance(options: UseBalanceOptions = {}) {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: [DEPOSIT_WALLET_BALANCE_QUERY_KEY, proxyWalletAddress],
+    queryKey: [DEPOSIT_WALLET_BALANCE_QUERY_KEY, depositWalletAddress],
     enabled: isQueryEnabled,
     staleTime: 'static',
     gcTime: 5 * 60 * 1000,
     refetchInterval: 10_000,
     refetchIntervalInBackground: true,
     queryFn: async (): Promise<Balance> => {
-      if (!client || !proxyWalletAddress || !contract) {
+      if (!client || !depositWalletAddress || !contract) {
         return INITIAL_STATE
       }
 
       try {
-        const balanceRaw = await contract.read.balanceOf([proxyWalletAddress])
+        const balanceRaw = await contract.read.balanceOf([depositWalletAddress])
         const balanceNumber = Number(balanceRaw) / 10 ** USDC_DECIMALS
 
         return {

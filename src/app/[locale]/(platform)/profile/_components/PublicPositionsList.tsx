@@ -68,11 +68,11 @@ interface LoadMoreStateValue {
 
 function useUserTradingContext(userAddress: string) {
   const user = useUser()
-  const hasDeployedProxyWallet = Boolean(user?.deposit_wallet_address && user?.deposit_wallet_status === 'deployed')
-  const proxyWalletAddress = hasDeployedProxyWallet ? normalizeAddress(user?.deposit_wallet_address) : null
-  const makerAddress = proxyWalletAddress ?? null
+  const hasDeployedDepositWallet = Boolean(user?.deposit_wallet_address && user?.deposit_wallet_status === 'deployed')
+  const depositWalletAddress = hasDeployedDepositWallet ? normalizeAddress(user?.deposit_wallet_address) : null
+  const makerAddress = depositWalletAddress ?? null
   const canSell = Boolean(
-    hasDeployedProxyWallet
+    hasDeployedDepositWallet
     && user?.deposit_wallet_address
     && user.deposit_wallet_address.toLowerCase() === userAddress.toLowerCase(),
   )

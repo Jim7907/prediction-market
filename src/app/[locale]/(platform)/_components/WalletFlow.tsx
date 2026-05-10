@@ -119,7 +119,7 @@ function usePendingWithdrawals() {
   return { pendingWithdrawals: visiblePendingWithdrawals, setPendingWithdrawals }
 }
 
-function useHasDeployedProxyWallet(user: WalletFlowProps['user']) {
+function useHasDeployedDepositWallet(user: WalletFlowProps['user']) {
   return useMemo(() => (
     Boolean(user?.deposit_wallet_address && user?.deposit_wallet_status === 'deployed')
   ), [user?.deposit_wallet_address, user?.deposit_wallet_status])
@@ -326,7 +326,7 @@ export function WalletFlow({
   const connectedWalletAddress = user?.address ?? null
   const { openTradeRequirements } = useTradingOnboarding()
 
-  const hasDeployedProxyWallet = useHasDeployedProxyWallet(user)
+  const hasDeployedDepositWallet = useHasDeployedDepositWallet(user)
   const walletSendMessages = useMemo<WalletSendMessages>(() => ({
     depositWalletRequired: t('Set up your Deposit Wallet first.'),
     invalidRecipient: t('Enter a valid recipient address.'),
@@ -364,7 +364,7 @@ export function WalletFlow({
         walletEoaAddress={user?.address ?? null}
         siteName={site.name}
         meldUrl={meldUrl}
-        hasDeployedProxyWallet={hasDeployedProxyWallet}
+        hasDeployedDepositWallet={hasDeployedDepositWallet}
         view={depositView}
         onViewChange={setDepositView}
         onBuy={handleBuy}

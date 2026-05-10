@@ -75,7 +75,7 @@ export interface WalletDepositModalProps {
   walletEoaAddress?: string | null
   siteName?: string
   meldUrl: string | null
-  hasDeployedProxyWallet: boolean
+  hasDeployedDepositWallet: boolean
   view: WalletDepositView
   onViewChange: (view: WalletDepositView) => void
   onBuy: (url: string) => void

@@ -12,7 +12,7 @@ const DATA_API_URL = process.env.DATA_URL
 const DEFAULT_INDEX_SETS = [1, 2]
 
 interface PortfolioMarketsWonCardProps {
-  proxyWalletAddress?: string | null
+  depositWalletAddress?: string | null
 }
 
 interface MarketMetadata {
@@ -375,8 +375,8 @@ function buildClaimData(
   }
 }
 
-export default async function PortfolioMarketsWonCard({ proxyWalletAddress }: PortfolioMarketsWonCardProps) {
-  const normalized = normalizeAddress(proxyWalletAddress) ?? null
+export default async function PortfolioMarketsWonCard({ depositWalletAddress }: PortfolioMarketsWonCardProps) {
+  const normalized = normalizeAddress(depositWalletAddress) ?? null
   if (!normalized) {
     return null
   }

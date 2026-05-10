@@ -20,13 +20,13 @@ export function usePortfolioValue(
   options: PortfolioValueOptions = {},
 ): PortfolioValueResult {
   const user = useUser()
-  const userProxyWallet = user?.deposit_wallet_status === 'deployed' && user?.deposit_wallet_address
+  const userDepositWallet = user?.deposit_wallet_status === 'deployed' && user?.deposit_wallet_address
     ? normalizeAddress(user.deposit_wallet_address)
     : null
   const useDefaultUser = options.useDefaultUser ?? true
   const targetWallet = walletAddress
     ? normalizeAddress(walletAddress)
-    : (useDefaultUser ? userProxyWallet : null)
+    : (useDefaultUser ? userDepositWallet : null)
 
   const {
     data,

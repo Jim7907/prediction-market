@@ -157,7 +157,7 @@ export function useMergePositionsAction({
 
       onSuccess?.()
 
-      const normalizedProxyWallet = normalizeAddress(user.deposit_wallet_address)
+      const normalizedDepositWallet = normalizeAddress(user.deposit_wallet_address)
       const publicPositionReductions = preparedMerges.map(entry => ({
         conditionId: entry.conditionId,
         sharesDelta: -entry.mergeAmount,
@@ -183,9 +183,9 @@ export function useMergePositionsAction({
             return false
           }
 
-          return !normalizedProxyWallet || !currentQueryKey[1]
+          return !normalizedDepositWallet || !currentQueryKey[1]
             ? false
-            : String(currentQueryKey[1]).toLowerCase() === normalizedProxyWallet.toLowerCase()
+            : String(currentQueryKey[1]).toLowerCase() === normalizedDepositWallet.toLowerCase()
         },
         current => current
           ? {

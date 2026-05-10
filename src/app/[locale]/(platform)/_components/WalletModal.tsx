@@ -30,7 +30,7 @@ export function WalletDepositModal(props: WalletDepositModalProps) {
     walletEoaAddress,
     siteName,
     meldUrl,
-    hasDeployedProxyWallet,
+    hasDeployedDepositWallet,
     view,
     onViewChange,
     onBuy,
@@ -81,7 +81,7 @@ export function WalletDepositModal(props: WalletDepositModalProps) {
           onReceive={() => onViewChange('receive')}
           onWallet={() => onViewChange('wallets')}
           disabledBuy={!meldUrl}
-          disabledReceive={!hasDeployedProxyWallet}
+          disabledReceive={!hasDeployedDepositWallet}
           meldUrl={meldUrl}
           walletEoaAddress={walletEoaAddress}
           walletBalance={walletBalance}

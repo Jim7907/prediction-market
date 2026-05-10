@@ -44,7 +44,7 @@ export default async function PortfolioPage({ params }: PageProps<'/[locale]/por
         fallbackChartEndDate={fallbackChartEndDate}
       />
 
-      <PortfolioMarketsWonCard proxyWalletAddress={publicAddress} />
+      <PortfolioMarketsWonCard depositWalletAddress={publicAddress} />
 
       <PortfolioTabs userAddress={userAddress} />
     </>

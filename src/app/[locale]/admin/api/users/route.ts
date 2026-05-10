@@ -72,8 +72,8 @@ export async function GET(request: NextRequest) {
             year: 'numeric',
           })
 
-      const proxyWalletAddress = user.deposit_wallet_address
-      const profilePath = buildPublicProfilePath(user.username || proxyWalletAddress || user.address || '')
+      const depositWalletAddress = user.deposit_wallet_address
+      const profilePath = buildPublicProfilePath(user.username || depositWalletAddress || user.address || '')
 
       const referredSource = user.referred_by_user_id
         ? referredMap.get(user.referred_by_user_id)
@@ -91,7 +91,7 @@ export async function GET(request: NextRequest) {
         user.username,
         user.email,
         user.address,
-        proxyWalletAddress,
+        depositWalletAddress,
         referredDisplay,
       ].filter(Boolean).join(' ').toLowerCase()
 

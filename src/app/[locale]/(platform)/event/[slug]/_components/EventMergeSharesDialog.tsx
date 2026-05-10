@@ -27,7 +27,7 @@ import { DEPOSIT_WALLET_BALANCE_QUERY_KEY } from '@/hooks/useBalance'
 import { useIsMobile } from '@/hooks/useIsMobile'
 import { useSignaturePromptRunner } from '@/hooks/useSignaturePromptRunner'
 import { DEFAULT_CONDITION_PARTITION, MICRO_UNIT } from '@/lib/constants'
-import { ZERO_COLLECTION_ID } from '@/lib/contracts'
+import { isCurrentNegRiskAdapterAddress, UNSUPPORTED_NEG_RISK_ADAPTER_MESSAGE, ZERO_COLLECTION_ID } from '@/lib/contracts'
 import { formatAmountInputValue, toMicro } from '@/lib/formatters'
 import { applyPositionDeltasToUserPositions, applyShareDeltas, updateQueryDataWhere } from '@/lib/optimistic-trading'
 import { isTradingAuthRequiredError } from '@/lib/trading-auth/errors'
@@ -185,8 +185,8 @@ export default function EventMergeSharesDialog({
     setIsSubmitting(true)
 
     try {
-      if (isNegRiskMarket && !negRiskAdapterAddress) {
-        setError(t('Could not resolve the market adapter for merge. Refresh and try again.'))
+      if (isNegRiskMarket && !isCurrentNegRiskAdapterAddress(negRiskAdapterAddress)) {
+        setError(t(UNSUPPORTED_NEG_RISK_ADAPTER_MESSAGE))
         setIsSubmitting(false)
         return
       }
