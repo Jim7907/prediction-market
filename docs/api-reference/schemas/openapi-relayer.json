@@ -113,6 +113,8 @@
       "get": {
         "operationId": "getTransaction",
         "summary": "Get transaction by id",
+        "description": "Public polling endpoint for a previously submitted relayer transaction id.",
+        "security": [],
         "parameters": [
           {
             "name": "id",
