@@ -36,7 +36,7 @@ import { useOutcomeLabel } from '@/hooks/useOutcomeLabel'
 import { useSignaturePromptRunner } from '@/hooks/useSignaturePromptRunner'
 import { addressToBuilderCode } from '@/lib/builder-code'
 import { CLOB_ORDER_TYPE, getExchangeEip712Domain, ORDER_SIDE, ORDER_TYPE, OUTCOME_INDEX } from '@/lib/constants'
-import { isCurrentNegRiskAdapterAddress, UNSUPPORTED_NEG_RISK_ADAPTER_MESSAGE } from '@/lib/contracts'
+import { isCurrentNegRiskAdapterAddress } from '@/lib/contracts'
 import { resolveEventPagePath } from '@/lib/events-routing'
 import { formatCentsLabel, formatCurrency, formatSharesLabel, toCents } from '@/lib/formatters'
 import { resolveFallbackOutcomeUnitPrice, resolveMarketOutcome } from '@/lib/market-pricing'
@@ -1223,7 +1223,7 @@ export default function EventOrderPanelForm({
     }
 
     if (isNegRiskMarket && !isCurrentNegRiskAdapterAddress(negRiskAdapterAddress)) {
-      handleOrderErrorFeedback(t('Trade unavailable'), t(UNSUPPORTED_NEG_RISK_ADAPTER_MESSAGE))
+      handleOrderErrorFeedback(t('Trade unavailable'), t('This action is currently unavailable for this market.'))
       return
     }
 
@@ -1553,7 +1553,7 @@ export default function EventOrderPanelForm({
     }
 
     if (isNegRiskMarket && !isCurrentNegRiskAdapterAddress(negRiskAdapterAddress)) {
-      toast.error(t(UNSUPPORTED_NEG_RISK_ADAPTER_MESSAGE))
+      toast.error(t('This action is currently unavailable for this market.'))
       return
     }
 

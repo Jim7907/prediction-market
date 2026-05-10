@@ -23,7 +23,7 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { DEPOSIT_WALLET_BALANCE_QUERY_KEY } from '@/hooks/useBalance'
 import { useSignaturePromptRunner } from '@/hooks/useSignaturePromptRunner'
 import { useSiteIdentity } from '@/hooks/useSiteIdentity'
-import { isCurrentNegRiskAdapterAddress, UNSUPPORTED_NEG_RISK_ADAPTER_MESSAGE } from '@/lib/contracts'
+import { isCurrentNegRiskAdapterAddress } from '@/lib/contracts'
 import { formatCurrency, formatPercent } from '@/lib/formatters'
 import { removeClaimedPublicPositions, updateQueryDataWhere } from '@/lib/optimistic-trading'
 import { buildPublicProfilePath } from '@/lib/platform-routing'
@@ -218,7 +218,7 @@ export default function PortfolioMarketsWonCardClient({ data }: PortfolioMarkets
 
       const adapterAddress = normalizeAddress(market.negRiskAdapterAddress)
       if (!isCurrentNegRiskAdapterAddress(adapterAddress)) {
-        toast.error(t(UNSUPPORTED_NEG_RISK_ADAPTER_MESSAGE))
+        toast.error(t('This action is currently unavailable for this market.'))
         return
       }
     }

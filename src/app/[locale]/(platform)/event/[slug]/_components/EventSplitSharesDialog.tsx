@@ -26,7 +26,7 @@ import { DEPOSIT_WALLET_BALANCE_QUERY_KEY } from '@/hooks/useBalance'
 import { useIsMobile } from '@/hooks/useIsMobile'
 import { useSignaturePromptRunner } from '@/hooks/useSignaturePromptRunner'
 import { DEFAULT_CONDITION_PARTITION, MICRO_UNIT } from '@/lib/constants'
-import { isCurrentNegRiskAdapterAddress, UNSUPPORTED_NEG_RISK_ADAPTER_MESSAGE, ZERO_COLLECTION_ID } from '@/lib/contracts'
+import { isCurrentNegRiskAdapterAddress, ZERO_COLLECTION_ID } from '@/lib/contracts'
 import { formatAmountInputValue, toMicro } from '@/lib/formatters'
 import { applyPositionDeltasToUserPositions, applyShareDeltas, updateQueryDataWhere } from '@/lib/optimistic-trading'
 import { isTradingAuthRequiredError } from '@/lib/trading-auth/errors'
@@ -183,7 +183,7 @@ export default function EventSplitSharesDialog({
     }
 
     if (isNegRiskMarket && !isCurrentNegRiskAdapterAddress(negRiskAdapterAddress)) {
-      setError(t(UNSUPPORTED_NEG_RISK_ADAPTER_MESSAGE))
+      setError(t('This action is currently unavailable for this market.'))
       return
     }
 

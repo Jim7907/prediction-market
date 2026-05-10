@@ -14,7 +14,7 @@ import { Drawer, DrawerContent, DrawerTitle } from '@/components/ui/drawer'
 import { DEPOSIT_WALLET_BALANCE_QUERY_KEY } from '@/hooks/useBalance'
 import { useIsMobile } from '@/hooks/useIsMobile'
 import { useSignaturePromptRunner } from '@/hooks/useSignaturePromptRunner'
-import { isCurrentNegRiskAdapterAddress, UNSUPPORTED_NEG_RISK_ADAPTER_MESSAGE } from '@/lib/contracts'
+import { isCurrentNegRiskAdapterAddress } from '@/lib/contracts'
 import { formatCurrency, formatSharesLabel } from '@/lib/formatters'
 import { isTradingAuthRequiredError } from '@/lib/trading-auth/errors'
 import { cn } from '@/lib/utils'
@@ -305,7 +305,7 @@ function useRedeemClaimSubmission({
       }
 
       if (!isCurrentNegRiskAdapterAddress(normalizeAddress(group.negRiskAdapterAddress))) {
-        toast.error(UNSUPPORTED_NEG_RISK_ADAPTER_MESSAGE)
+        toast.error('This action is currently unavailable for this market.')
         return
       }
     }
